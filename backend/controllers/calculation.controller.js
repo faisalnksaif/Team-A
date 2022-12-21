@@ -1,15 +1,8 @@
-import bodyParser from "body-parser";
-import express from "express";
+import { db } from "../database/connection.js";
 
-import  {Router}  from "express";
-import { db } from './database/connection.js';
- 
-var jsonParsor = bodyParser.json();
-export const router = express.Router()
+//--------------Addition---------------------//
 
-
-
-  router.post("/addition", jsonParsor, function (req, res) {
+export  function addition (req, res) {
     let firstnumber = req.body.num1;
     let secondnumber = req.body.num2;
 
@@ -34,9 +27,11 @@ export const router = express.Router()
         }
       }
     );
-  });
+  };
 
-  router.post("/subtraction", jsonParsor, function (req, res) {
+  //-----------subtraction-------------------------//
+
+  export function  subtraction (req, res) {
     let firstnumber = req.body.num1;
     let secondnumber = req.body.num2;
     let subtraction = parseFloat(firstnumber - secondnumber);
@@ -57,5 +52,4 @@ export const router = express.Router()
         }
       }
     );
-  });
- 
+  };
