@@ -6,9 +6,7 @@ import { save } from '../services/calculation.service.js';
 export async function addition (req, res) {
     let firstnumber = req.body.num1;
     let secondnumber = req.body.num2;
-
-    let sum = parseFloat(firstnumber + secondnumber);
-    // let savedSum = save(firstnumber,secondnumber,sum)
+    let sum = parseInt(+firstnumber + +secondnumber);
 
     try {
      const result = await save(firstnumber,secondnumber,sum,'sum')
