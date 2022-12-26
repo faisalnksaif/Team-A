@@ -1,4 +1,3 @@
-import { db } from "../database/connection.js";
 import { save } from '../services/calculation.service.js';
 
 //--------------Addition---------------------//

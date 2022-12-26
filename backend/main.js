@@ -3,6 +3,9 @@ import cors from "cors";
 import { initialize } from "./database/connection.js";
 import  calculationRoute from "./routes/calculation.route.js";
 
+
+(async () => {
+
 // app.use(bodyParser.json());
 // app.use(express.json())
 var app = express();
@@ -29,3 +32,6 @@ app.get("/", function (req, res) {
 app.listen(8080, function () {
   console.log("server started");
 });
+
+})();
+

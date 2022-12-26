@@ -1,7 +1,6 @@
 import express from "express";
 
 import { Router } from "express";
-import { db } from "../database/connection.js";
 import { addition, subtraction,division } from "./../controllers/calculation.controller.js";
 import { calculationMiddleware } from './../middlewares/calculation.middleware.js';
 
