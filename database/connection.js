@@ -1,4 +1,5 @@
-import mongoose from 'mongoose';
+import  mongoose  from 'mongoose';
+mongoose.set('strictQuery', false);
 
 const connection_string =
   "mongodb+srv://faisalnksaif:yourClassDay1@cluster0.iaoqh.mongodb.net/classday?retryWrites=true&w=majority";
@@ -8,11 +9,12 @@ const connection_string =
 
   export async function initialize(){
     try{
-         await mongoose.connect(connection_string )
+         await mongoose.connect(connection_string)
             // db = client.db("classday");
             console.log("db connected");
-      }catch(err){
-          throw err;
+        }catch(err){
+           throw err;
+          // console.log(err);
     }
 }
 
