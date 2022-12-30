@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 
 
 const hospitalSchema = new mongoose.Schema({
-    hospital_name:{
+    hospitalName:{
         type : mongoose.Schema.Types.String,
         required : true
     },
@@ -14,12 +14,13 @@ const hospitalSchema = new mongoose.Schema({
         type : mongoose.Schema.Types.String,
         required : true
     },
-    contact_no:{
+    mobileNo:{
         type : mongoose.Schema.Types.Number,
         required : true
     },
+
     
 })
 
-const model = mongoose.model("hospital",hospitalSchema);
-export default model;
+const hospital = mongoose.model("hospital",hospitalSchema);
+export default hospital;
