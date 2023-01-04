@@ -15,7 +15,7 @@ const hospitalSchema = new mongoose.Schema({
         required : true
     },
     mobileNo:{
-        type : mongoose.Schema.Types.Number,
+        type : mongoose.Schema.Types.String,
         required : true
     },
 

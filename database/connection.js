@@ -2,7 +2,7 @@ import  mongoose  from 'mongoose';
 mongoose.set('strictQuery', false);
 
 const connection_string =
-  "mongodb+srv://faisalnksaif:yourClassDay1@cluster0.iaoqh.mongodb.net/classday?retryWrites=true&w=majority";
+  "mongodb+srv://faisalnksaif:yourClassDay1@cluster0.iaoqh.mongodb.net/myDoctor?retryWrites=true&w=majority";
 
 
   // export let db;
