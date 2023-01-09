@@ -5,6 +5,7 @@ import hospitalRouter from "./routes/hospital.route.js";
 import mongoose from 'mongoose'
 import { errorMiddleware } from "./errorMiddleware.js";
 import userRouter from './routes/user.route.js'
+// import userLoginRouter from './routes/userLogin.route.js'
 // import { errorHandling } from "./errorHandler.js";
 
 
@@ -18,7 +19,9 @@ import userRouter from './routes/user.route.js'
   app.use(cors({ origin: true, credentials: true }));
   app.use(express.json({limit:"50mb"}))
   app.use(express.urlencoded({limit:"50mb",extended:true}))
-  
+
+
+  // app.use("/authentication",userLoginRouter)
   app.use("/authentication",userRouter)
   app.use("/hospital",hospitalRouter)
   

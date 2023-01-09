@@ -6,14 +6,15 @@ import { isValidMobileNumber } from "../utils/util.js";
 const userSchema = new mongoose.Schema({
     username : {
         type: mongoose.Schema.Types.String,
-        required : true,
+         required : true,
         lowercase : true,
         unique : true
     },
     password : {
         type : mongoose.Schema.Types.Mixed,
         required : true,
-        maxLength : [25, "Your password cannot exceed 25 characters"],
+        unique : true,
+        maxLength : [15, "Your password cannot exceed 15 characters"],
         minLength : [6, "Your password should be contain minimum 6 characters"],
     },
     name : {
@@ -32,7 +33,6 @@ const userSchema = new mongoose.Schema({
             validator: (v)=> isValidMobileNumber(v),
             message: 'Invalid mobile number'
         }
-        // validate: [!isValidMobileNumber, 'Please fill a valid mobile number '],
     },
     email: {
         type : mongoose.Schema.Types.String,

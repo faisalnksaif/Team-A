@@ -1,31 +1,24 @@
 import userModel from "../models/user.model.js";
-import bcrypt from "bcrypt";
 
 
-// const password = 'sharmilamuhzin'
-// const saltRounds = 10
-
-export async function save(
-  username,
-  password,
-  name,
-  address,
-  mobileNo,
-  email,
-  role
-) {
-  const userData = new userModel({
-    username,
-    password,
-    name,
-    address,
-    mobileNo,
-    email,
-    role,
-  });
-//   bcrypt.hash(password, saltRounds, function (err, hash) {
-//     // Store hash in your password DB.
-//   });
-  await userData.save();
-  return { userData };
+export async function save(data) {
+  const user = await userModel.findOne({username: data.username})
+    // console.log('user: ',user);
+    
+    if(user) {
+       res.status(500).send('User already exists!');
+    } else {
+      const userData = new userModel(data);
+      console.log('userData',userData);
+      await userData.save();
+      return { userData };
+    }
 }
+
+
+// export async function save(data){
+//   const user = new userModel({data})
+//   // console.log();
+//   //  await user.save()
+//   return{user}
+// }
