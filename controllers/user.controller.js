@@ -24,16 +24,19 @@ export async function userDetails(req, res, next) {
       email,
       role,
     });
+
+
     // const user = await userModel.findOne({username:req.body.username})
     // if(user){
     //   res.status(500).send('user already exist');
     // }else{
-    // let userData = new userModel(data);
+    // const userData = new userModel(data);
     //   // console.log();
 
-    //   res.send(userData);
+    //   return { userData };
 
     // }
+
     res.send(data);
   } catch (err) {
     console.log(err);
