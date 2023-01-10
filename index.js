@@ -30,7 +30,7 @@ import userRouter from './routes/user.route.js'
   //  })
 
   app.use(errorMiddleware)
-  app.listen(8080,function(){
+  app.listen(5000,function(){
     console.log("server connected");  
   })
 })();

@@ -45,6 +45,9 @@ const userSchema = new mongoose.Schema({
         type : mongoose.Schema.Types.String,
         required : true
     },
+    token :{
+        type : mongoose.Schema.Types.String,
+    }
 })
 
 const user = mongoose.model("User",userSchema)
