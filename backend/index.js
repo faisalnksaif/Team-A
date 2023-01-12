@@ -1,7 +1,9 @@
 import express from "express";
 import cors from "cors"
 import { initialize } from './database/connection.js';
+import doctorRouter from "./routes/doctor.route.js";
 import hospitalRouter from "./routes/hospital.route.js";
+
 import mongoose from 'mongoose'
 import { errorMiddleware } from "./errorMiddleware.js";
 import userRouter from './routes/user.route.js'
@@ -24,13 +26,15 @@ import userRouter from './routes/user.route.js'
   // app.use("/authentication",userLoginRouter)
   app.use("/authentication",userRouter)
   app.use("/hospital",hospitalRouter)
+  app.use("/doctor",doctorRouter)
+
   
   //  app.use(function(err,req,res,next){
   //   res.send(500).send("Something Went Wrong")
   //  })
 
   app.use(errorMiddleware)
-  app.listen(5000,function(){
+  app.listen(4000,function(){
     console.log("server connected");  
   })
 })();

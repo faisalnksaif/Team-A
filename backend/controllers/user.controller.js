@@ -2,14 +2,13 @@ import { save } from "../services/user.service.js";
 import bcrypt, { hash } from "bcrypt";
 import userModel from "../models/user.model.js";
 import jwt from "jsonwebtoken";
-// import dotenv from 'dotenv'
+import dotenv from "dotenv";
 
-// dotenv.config();
+dotenv.config();
 
 export async function userDetails(req, res, next) {
   let user = await userModel.findOne({ username: req.body.username });
   if (user) return res.status(400).send("user already registered");
-
 
   let username = req.body.username;
   let password = req.body.password;
@@ -22,9 +21,6 @@ export async function userDetails(req, res, next) {
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
 
-
-  
-
   try {
     const data = await save({
       username,
@@ -35,8 +31,6 @@ export async function userDetails(req, res, next) {
       email,
       role,
     });
-
-    
 
     res.send(data);
   } catch (err) {
@@ -59,33 +53,17 @@ export async function userLogin(req, res, next) {
       const validpassword = await bcrypt.compare(password, user.password);
       console.log("validpassword :", validpassword);
 
-      if (!validpassword) 
-        res.status(500).send("invalid password");
+      if (!validpassword) res.status(500).send("invalid password");
 
-
-      let token =jwt.sign(
-        { username: user.username, role:user.role},
-        process.env.TOKEN_KEY,
-       
+      let token = jwt.sign(
+        { username: user.username, role: user.role },
+        process.env.TOKEN_KEY
       );
-      // user.token = token 
-      res.send(token)
 
-      
+      // user.token = token;
+      res.header("x-auth-token", token).send(token);
     }
-
   } catch (error) {
     next(error);
   }
 }
-
-// const user = await userModel.findOne({username:req.body.username})
-// if(user){
-//   res.status(500).send('user already exist');
-// }else{
-// const userData = new userModel(data);
-//   // console.log();
-
-//   return { userData };
-
-// }
