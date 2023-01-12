@@ -8,8 +8,8 @@ import { User } from '../dto/user.dto.js';
 const router = express.Router()
 
 
-router.post("/sign-up", userDetails);
-router.post("/sign-in", userLogin);
+router.post("/sign-up",makeValidateBody(User),userDetails);
+router.post("/sign-in",userLogin);
 
 
 export default router;
