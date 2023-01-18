@@ -41,6 +41,5 @@ export async function update(req, res) {
 
 export async function deleteData(id) {
   const deletedHospitalData = await HospitalModel.findByIdAndDelete(id);
-  // await deletedHospitalData.save()
   return { deletedHospitalData };
 }
