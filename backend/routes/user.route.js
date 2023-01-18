@@ -1,16 +1,13 @@
-import express ,{Router} from 'express'
-import { userDetails, userLogin } from '../controllers/user.controller.js';
-import { makeValidateBody} from 'express-class-validator'
-import { User } from '../dto/user.dto.js';
 
+import express ,{Router} from 'express'
+import { userProfile } from "../controllers/user.controller.js";
 
 
 
 const router = express.Router()
 
 
-router.post("/sign-up",makeValidateBody(User),userDetails);
-router.post("/sign-in",userLogin);
 
+router.get("/profile/:id",userProfile)
 
 export default router;

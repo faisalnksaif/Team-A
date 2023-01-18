@@ -1,17 +1,10 @@
 import express ,{Router} from 'express'
-import { doctorDetails, doctorLogin } from '../controllers/doctor.controller.js';
-import { makeValidateBody } from 'express-class-validator';
-import { Doctor } from '../dto/doctor.dto.js';
-import { doctorMiddleware } from '../middlewares/doctor.middleware.js';
-
-
+import { profile } from '../controllers/doctor.controller.js'
 
 
 const router = express.Router()
 
 
-router.post("/sign-up",makeValidateBody(Doctor),doctorMiddleware,doctorDetails);
-router.post("/sign-in",doctorLogin);
-
+router.get("/profile/:id",profile)
 
 export default router;
