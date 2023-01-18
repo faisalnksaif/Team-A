@@ -13,7 +13,6 @@ const userSchema = new mongoose.Schema({
     password : {
         type : mongoose.Schema.Types.Mixed,
         required : true,
-        unique : true,
         maxLength : [15,"Your password cannot exceed 15 characters"],
         minLength : [6,"Your password should be contain minimum 6 characters"],
     },

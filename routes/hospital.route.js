@@ -19,6 +19,7 @@ const router = express.Router()
 // }
 
 router.post("/", makeValidateBody(hospital),hospitalMiddleware,hospitalData);
+
 router.get("/",getHospitals);
 router.get("/:id",getHospital)
 router.patch("/:id",updateData)
