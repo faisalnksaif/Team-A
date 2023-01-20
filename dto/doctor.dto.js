@@ -12,4 +12,12 @@ export class Doctor {
   @IsNotEmpty()
   @IsString()
   timeEnd;
+
+  @IsNotEmpty()
+  @IsString()
+  qualification;
+
+  @IsNotEmpty()
+  @IsString()
+  yearofExperience;
 }

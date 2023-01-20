@@ -4,6 +4,7 @@ import bcrypt, { hash } from "bcrypt";
 import userModel from "../models/user.model.js";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import doctorModel from '../models/doctor.model.js'
 
 dotenv.config();
 
@@ -28,11 +29,15 @@ export async function signUp(req, res, next) {
 
     console.log(user);
     if (user.role === "doctor") {
+      
       await saveDoctor({
         userId: user._id,
         ...req.body.doctor,
        
       });
+      let doctor = await doctorModel.findOne({userId:user._id})
+      doctor.isAccepted = req.body.doctor.isAccepted;
+      await doctor.save()
     }
   
     res.send({ success: true });
@@ -44,9 +49,12 @@ export async function signUp(req, res, next) {
   }
 }
 
+
+
 export async function signIn(req, res, next) {
   const username = req.body.username;
   const password = req.body.password;
+  const userId = req.body.userId;
  const role = req.body.role
 
   try {
@@ -56,6 +64,14 @@ export async function signIn(req, res, next) {
     if (!user) {
       res.status(500).send("Username is invalid!");
     } else {
+      if(user.role === "doctor"){
+        try{
+          let doctor = await doctorModel.findOne({userId:user._id})
+          if(!doctor.isAccepted) return res.status(401).send("Doctor is not accepted by admin")
+  
+        }catch(error){
+          return res.status(500).send("Error while fetching doctor details!");        }
+             }
       const validpassword = await bcrypt.compare(password, user.password);
       console.log("validpassword :", validpassword);
 

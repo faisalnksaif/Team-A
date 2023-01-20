@@ -5,15 +5,29 @@ const doctorSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref:"User"
   },
+  isAccepted:{
+    type: mongoose.Schema.Types.Boolean,
+    default:false
+  },
   department: {
     type: mongoose.Schema.Types.String,
+    required : true
   },
   timeStart: {
     type: mongoose.Schema.Types.String,
+    required : true
   },
   timeEnd: {
     type: mongoose.Schema.Types.String,
+    required : true
   },
+  qualification:{
+    type:mongoose.Schema.Types.String,
+    required : true
+  },
+  yearofExperience:{
+    type:mongoose.Schema.Types.String
+  }
   // hospitalId: {
   //   type: mongoose.Schema.Types.ObjectId,
   //   ref:"hospital"
