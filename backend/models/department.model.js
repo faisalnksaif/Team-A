@@ -3,7 +3,9 @@ import mongoose from "mongoose";
 
 const departmentSchema = new mongoose.Schema({
     departmentName:{
-        type:mongoose.Schema.Types.String
+        type:mongoose.Schema.Types.String,
+        required : true
+
     }
 })
 

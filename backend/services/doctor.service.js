@@ -19,3 +19,27 @@ export async function doctorProfile(id){
   console.log(doctor);
   return { doctor }
 }
+
+export async function getAll(){
+  const doctorList = await doctorModel.find({})
+  return { doctorList }
+}
+
+
+export async function update(req,res){
+ const updateProfile = await doctorModel.findByIdAndUpdate(req.params.id,{
+  department: req.body.department,
+  timeStart: req.body.timeStart,
+  timeEnd:req.body.timeEnd,
+  qualification:req.body.qualification,
+  yearofExperience:req.body.yearofExperience,
+
+ })
+ return{updateProfile}
+}
+
+
+export async function deleteDoctor(id){
+  const deleteDoctor = await doctorModel.findByIdAndDelete(id)
+  return{ deleteDoctor }
+}
