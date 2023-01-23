@@ -8,7 +8,7 @@ const router = express.Router()
 
 router.get("/profile/:id",profile)
 router.get("/list",getDoctorList)
-router.delete("/deletedoctor/:id",deleteDoctorData)
-// router.put("/update/:id",update)
+router.delete("/delete/:id",deleteDoctorData)
+router.put("/update/:id",update)
 
 export default router;

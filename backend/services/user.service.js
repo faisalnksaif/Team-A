@@ -20,9 +20,9 @@ export async function getProfile(id) {
   return { user };
 }
 
-export async function update(id) {
+export async function update(req,res) {
   const userProfile = await userModel.findByIdAndUpdate(
-    id,
+    req.params.id,
     {
       username: req.body.username,
       name: req.body.name,
