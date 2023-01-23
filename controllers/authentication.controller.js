@@ -4,7 +4,7 @@ import bcrypt, { hash } from "bcrypt";
 import userModel from "../models/user.model.js";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import doctorModel from '../models/doctor.model.js'
+import doctorModel from "../models/doctor.model.js";
 
 dotenv.config();
 
@@ -23,55 +23,48 @@ export async function signUp(req, res, next) {
     const { user } = await saveUser({
       ...req.body.user,
       password: hashedPassword,
-      
     });
-    
 
     console.log(user);
     if (user.role === "doctor") {
-      
       await saveDoctor({
         userId: user._id,
         ...req.body.doctor,
-       
       });
-      let doctor = await doctorModel.findOne({userId:user._id})
+      let doctor = await doctorModel.findOne({ userId: user._id });
       doctor.isAccepted = req.body.doctor.isAccepted;
-      await doctor.save()
+      await doctor.save();
     }
-  
-    res.send({ success: true });
-   
 
+    res.send({ success: true });
   } catch (err) {
     console.log(err);
     next(err);
   }
 }
 
-
-
 export async function signIn(req, res, next) {
   const username = req.body.username;
   const password = req.body.password;
   const userId = req.body.userId;
- const role = req.body.role
+  const role = req.body.role;
 
   try {
-    let user = await userModel.findOne({ username: username,role:role });
+    let user = await userModel.findOne({ username: username, role: role });
     console.log("user: ", user);
 
     if (!user) {
       res.status(500).send("Username is invalid!");
     } else {
-      if(user.role === "doctor"){
-        try{
-          let doctor = await doctorModel.findOne({userId:user._id})
-          if(!doctor.isAccepted) return res.status(401).send("Doctor is not accepted by admin")
-  
-        }catch(error){
-          return res.status(500).send("Error while fetching doctor details!");        }
-             }
+      if (user.role === "doctor") {
+        try {
+          let doctor = await doctorModel.findOne({ userId: user._id });
+          if (!doctor.isAccepted)
+            return res.status(401).send("Doctor is not accepted by admin");
+        } catch (error) {
+          return res.status(500).send("Error while fetching doctor details!");
+        }
+      }
       const validpassword = await bcrypt.compare(password, user.password);
       console.log("validpassword :", validpassword);
 

@@ -14,7 +14,7 @@ export async function userProfile(req,res,next){
 
 export async function updateUser(req,res,next){
     try {
-        const updatedProfile = await update(req.params.id)
+        const updatedProfile = await update(req,res)
         res.send(updatedProfile)
     } catch (error) {
         next(error)
