@@ -1,7 +1,8 @@
 
 import express ,{Router} from 'express'
-import { updateUser, userProfile } from "../controllers/user.controller.js";
-// import { verifyToken } from '../middlewares/auth.middleware.js';
+// import { updateUserProfile } from '../controllers/authentication.controller.js';
+import {  deleteUserProfile, userProfile } from "../controllers/user.controller.js";
+import {  userMiddleware, verifyUser } from '../middlewares/auth.middleware.js';
 
 
 
@@ -9,8 +10,8 @@ const router = express.Router()
 
 
 
-router.get("/profile/:id",userProfile)
-router.put("/updateprofile/:id",updateUser)
+router.get("/profile/:id",verifyUser,userMiddleware,userProfile)
+// router.delete("/delete/:id",deleteUserProfile)
 
 
 export default router;

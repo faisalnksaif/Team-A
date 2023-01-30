@@ -23,6 +23,6 @@ export class LoginDto {
   password;
 
   
-  @IsIn(["patient", "doctor", "admin"])
- role
+//   @IsIn(["patient", "doctor", "admin"])
+//  role
 }
