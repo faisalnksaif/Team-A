@@ -5,7 +5,7 @@ import { deleteHospital, getHospital, getHospitals, hospitalData, updateData } f
 import { hospital } from '../dto/hospital.dto.js';
 import  {hospitalMiddleware} from "../middlewares/hospital.middleware.js"
 // import { makeValidateBody } from 'express-class-validator'
-import { verifyToken } from '../middlewares/auth.middleware.js';
+// import { verifyToken } from '../middlewares/auth.middleware.js';
 
 
 

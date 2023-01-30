@@ -1,14 +1,14 @@
 import { deleteDepartment, DepartmentList, getDepartmentList, updateDepartment } from "../controllers/department.controller.js"
 import express,{Router} from 'express'
-// import { verifyToken } from "../middlewares/auth.middleware.js"
+import { verifyUser } from "../middlewares/auth.middleware.js"
 
 
 const router = express.Router()
 
-router.post("/list",DepartmentList)
-router.get("/alldepartment",getDepartmentList)
-router.put("/updatedepartment/:id",updateDepartment)
-router.delete("/deletedepartment/:id",deleteDepartment)
+router.post("/list",verifyUser,DepartmentList)
+router.get("/alldepartment",verifyUser,getDepartmentList)
+router.put("/updatedepartment/:id",verifyUser,updateDepartment)
+router.delete("/deletedepartment/:id",verifyUser,deleteDepartment)
 
 
 
