@@ -6,3 +6,9 @@ export async function bookAppointment(patientData){
     await appointmentData.save()
     return appointmentData;
 }
+
+export async function getAppointments(patientData){
+    const appointments = await appointmentModel.find()
+    return appointments
+
+}
