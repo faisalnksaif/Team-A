@@ -8,13 +8,25 @@ import userModel from "../models/user.model.js";
 //   return { result };
 // }
 
-export async function save(data) {
-  const doctor = new doctorModel(data);
-  await doctor.save();
-  return { doctor };
+export async function save(doctorData) {
+  const doctor = new doctorModel(doctorData);
+ const savedDoctor = await doctor.save();
+  return  savedDoctor ;
 }
 
-export async function doctorProfile(id) {
+
+
+// export async function getDoctorData(doctorData){
+//   const doctor = await doctorModel({userId})
+//   return doctor
+// }
+
+export async function getDoctorByUserId(userId){
+  const doctor = await doctorModel.findOne({userId})
+  return doctor
+}
+
+export async function doctorProfileView(id) {
   const doctor = await doctorModel
     .findById(id, {}, { projection: { timeEnd: 0, timeStart: 0 } })
     .populate("userId", ["username", "name", "address", "mobileNo", "email"]);
@@ -27,14 +39,16 @@ export async function getAll() {
   return { doctors };
 }
 
-export async function updateDoctorDetails(doctorId, doctorData) {
-  const updateDoctorData = await doctorModel.findByIdAndUpdate(
-    doctorId,
-    doctorData,
-    { new: true }
-  );
-  return { updateDoctorData };
-}
+// export async function updateDoctorDetails(userId,doctorId, doctorData) {
+//   await getDoctorByUserId(userId)
+//   const updateDoctorData = await doctorModel.findByIdAndUpdate(
+//     doctorId,
+//     doctorData,
+//     { new: true }
+//   );
+//   console.log("update: ",updateDoctorData);
+//   return  updateDoctorData ;
+// }
 
 export async function approveDoctorStatus(doctorId) {
   const doctor = await doctorModel.findById(doctorId);

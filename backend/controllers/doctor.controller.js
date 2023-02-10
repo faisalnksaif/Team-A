@@ -6,25 +6,26 @@ import {
   updateDoctorDetails,
 } from "../services/doctor.service.js";
 
-export async function profile(req, res, next) {
-  try {
-    const profileView = await doctorProfile(req.params.id);
-    return res.send(profileView);
-  } catch (error) {
-    next(error);
-  }
-}
+// export async function profile(req, res, next) {
+//   try {
+//     const profileView = await doctorProfile(req.params.id);
+//     return res.send(profileView);
+//   } catch (error) {
+//     next(error);
+//   }
+// }
 
 export async function getDoctorList(req, res) {
   const doctors = await getAll();
-  res.send(doctors);
+  res.send({doctors});
 }
 
 // export async function update(req, res, next) {
-//   const doctorId = req.params.id;
-//   const doctorData = req.body;
+//   const doctorId = req.body.doctor._id;
+//   const doctorData = req.body.doctor;
+//   const userId =req.params.id
 //   try {
-//     const doctorUpdate = await updateDoctorDetails(doctorId, doctorData);
+//     const doctorUpdate = await updateDoctorDetails(userId,doctorId, doctorData);
 //     res.send(doctorUpdate);
 //   } catch (err) {
 //     next(err);
@@ -35,9 +36,9 @@ export async function approveDoctor(req, res, next) {
   const doctorId = req.params.doctorId
   try {
     const doctorStatus = await approveDoctorStatus(doctorId);
-    res.send(doctorStatus);
+    res.send({doctorStatus});
   } catch (err) {
-    next(err);
+    next({err});
   }
 }
 

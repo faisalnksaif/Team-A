@@ -12,6 +12,7 @@ export const userSchema = new mongoose.Schema({
   password: {
     type: mongoose.Schema.Types.Mixed,
     required: true,
+    // select:false,
     maxLength: [15, "Your password cannot exceed 15 characters"],
     minLength: [6, "Your password should be contain minimum 6 characters"],
   },
@@ -36,13 +37,8 @@ export const userSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.String,
     unique: true,
     required: true,
-    // validate: [validateEmail, 'Please fill a valid email address'],
-    // match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address']
+   
   },
-  // age:{
-  //   type: mongoose.Schema.Types.String,
-  //   required: true,
-  // },
   role: {
     type: mongoose.Schema.Types.String,
     required: true,
