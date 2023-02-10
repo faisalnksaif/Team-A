@@ -4,9 +4,9 @@ export async function DepartmentList(req,res,next){
     let departmentName = req.body.departmentName
     try {
         const departmentList = await department({departmentName})
-        res.send(departmentList)
+        res.send({departmentList})
     } catch (error) {
-        next(error)
+        next({error})
     }
 }
 
@@ -19,10 +19,10 @@ export async function getDepartmentList(req,res){
 export async function updateDepartment(req,res,next){
     try{
         const updatedDepartment = await update(req,res)
-        res.send(updatedDepartment)
+        res.send({updatedDepartment})
     
     }catch(error){
-        next(error)
+        next({error})
     }
    
 }
@@ -30,8 +30,8 @@ export async function updateDepartment(req,res,next){
 export async function deleteDepartment(req,res){
     try {
         const deleteDprtmnt = await deleteData(req.params.id)
-        res.send(deleteDprtmnt)
+        res.send({deleteDprtmnt})
     } catch (error) {
-        next(error)
+        next({error})
     }
 }

@@ -16,7 +16,7 @@ export async function hospitalData(req, res, next) {
     const result = await save(hospitalName, address, place, mobileNo);
     res.send(result);
   } catch (err) {
-    next(err);
+    next({err});
 
     //    res.send({error:"insertion failed"})
   }
@@ -30,19 +30,19 @@ export async function getHospitals(req, res) {
 export async function getHospital(req, res, next) {
   try {
     const viewHospital = await getSingleView(req.params.id);
-    res.send(viewHospital);
+    res.send({viewHospital});
   } catch (error) {
-    next(error);
+    next({error});
   }
 }
 
 export async function updateData(req, res, next) {
   try {
     const updatedData = await update(req, res);
-    res.send(updatedData);
+    res.send({updatedData});
     //  console.log(updatedData);
   } catch (error) {
-    next(error);
+    next({error});
   }
 }
 
@@ -51,10 +51,10 @@ export async function deleteHospital(req, res, next) {
     console.log("delete");
     const dltHsptl = await deleteData(req.params.id);
     // throw new Error('errorrr')
-    res.send(dltHsptl);
+    res.send({dltHsptl});
   } catch (error) {
     console.log(error);
-    next(error);
+    next({error});
   }
 }
 

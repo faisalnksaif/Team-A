@@ -7,6 +7,8 @@ import authenticationRouter from "./routes/authentication.route";
 import userRouter from "./routes/user.route.js";
 import doctorRouter from "./routes/doctor.route.js";
 import departmentRouter from "./routes/department.route.js";
+import appointmentRouter from "./routes/appointment.route.js";
+
 import dotenv from "dotenv";
 (async () => {
   var app = express();
@@ -21,11 +23,13 @@ import dotenv from "dotenv";
   app.use("/department", departmentRouter);
   app.use("/doctor", doctorRouter);
   app.use("/user", userRouter);
-  app.use("/auth", authenticationRouter);
+  app.use(authenticationRouter);
   app.use("/hospital", hospitalRouter);
+  app.use("/patient", appointmentRouter);
   app.use(errorMiddleware);
-  app.listen(4000, function () {
-    console.log("server connected");
+  const port = process.env.PORT
+  app.listen(port || 4000, function () {
+    console.log(`${port} server connected`);
   });
 })();
 
