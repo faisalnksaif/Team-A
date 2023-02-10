@@ -1,4 +1,5 @@
 import mongoose, { Schema, Types } from "mongoose";
+import { isValidMobileNumber } from "../utils/util.js";
 
 
 export const appointmentSchema = new mongoose.Schema({
@@ -28,7 +29,21 @@ export const appointmentSchema = new mongoose.Schema({
         enum:['married','unmarried']
 
 
-    }
+    },
+    contactNo: {
+        type: mongoose.Schema.Types.String,
+        required: true,
+        // match:/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im
+        validate: {
+          validator: (v) => isValidMobileNumber(v),
+          message: "Invalid mobile number",
+        },
+      },
+      appointmentFor:{
+        type: mongoose.Schema.Types.String,
+        required: true,
+        enum:['Doctor Check','Result Analysis','Check up']
+      }
 })
 
 const appointmentModel = mongoose.model("patient",appointmentSchema)

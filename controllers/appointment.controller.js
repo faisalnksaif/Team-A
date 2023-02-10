@@ -1,4 +1,4 @@
-import { bookAppointment } from "../services/appointment.service.js";
+import { bookAppointment, getAppointments } from "../services/appointment.service.js";
 
 export async function userAppointment(req, res, next) {
   const patientData = req.body;
@@ -10,4 +10,16 @@ export async function userAppointment(req, res, next) {
     console.log(error);
     next({error});
   }
+}
+
+
+export async function patients(req,res,next){
+  const patientData = req.body
+  try {
+    const getPatients = await getAppointments(patientData)
+    res.send({getPatients})
+  } catch (error) {
+    next({error})
+  }
+
 }
