@@ -157,20 +157,3 @@ export async function getDoctorDetails(req, res, next) {
   }
 }
 
-export async function doctorProfile(req, res, next) {
-  try {
-    let user = await userModel.findById(req.params.id);
-
-    if (!user) return res.status(403).send({ error: "user not found" });
-    const userId = req.params.id;
-
-    if (user.role === "doctor") {
-      const doctor = await doctorModel.findOne({ userId });
-      const doctorId = doctor._id;
-      const doctorData = await doctorProfileView(doctorId);
-      res.send({ doctorData });
-    }
-  } catch (error) {
-    return res.send({ error: "cannot find user" });
-  }
-}

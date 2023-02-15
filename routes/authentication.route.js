@@ -14,7 +14,6 @@ router.post(`${path}/sign-in`,makeValidateBody(LoginDto),signIn);
 // router.put(`${path}/update/:id`,updateUserMiddlewar,updateProfile);
 router.delete(`${path}/delete/:id`,deleteProfile);
 router.get(`${path}/userdetails`,getUserDetails);
-router.get(`${path}/doctorProfile/:id`,doctorProfile);
 router.put(`${path}/updateProfile`,updateProfileByToken);
 
 
