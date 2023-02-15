@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 // import HttpException from "http-errors";
 import { save as saveUser } from "./user.service.js";
 import { save as saveDoctor } from "./doctor.service.js";
+import { department } from "./department.sevice.js";
 
 export async function userSignUp(userData,doctorData) {
   let findUser = await getUserByUsername(userData);
@@ -21,6 +22,7 @@ export async function userSignUp(userData,doctorData) {
   if (savedUser.role === "doctor") {
     await saveDoctor({
       userId: savedUser._id,
+      departmentId:department._id,
       ...doctorData,
     });
 

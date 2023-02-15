@@ -2,9 +2,9 @@ import { bookAppointment, getAppointments } from "../services/appointment.servic
 
 export async function userAppointment(req, res, next) {
   const patientData = req.body;
-
+  const username = req.user.username
   try {
-    const appointmentDetails = await bookAppointment(patientData);
+    const appointmentDetails = await bookAppointment(patientData,username);
     return res.send({ appointmentDetails });
   } catch (error) {
     console.log(error);

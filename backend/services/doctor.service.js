@@ -27,17 +27,76 @@ export async function getDoctorByUserId(userId){
 }
 
 export async function doctorProfileView(id) {
+  
   const doctor = await doctorModel
     .findById(id, {}, { projection: { timeEnd: 0, timeStart: 0 } })
     .populate("userId", ["username", "name", "address", "mobileNo", "email"]);
   console.log(doctor);
-  return { doctor };
+  return doctor ;
 }
 
-export async function getAll() {
-  const doctors = await doctorModel.find();
-  return { doctors };
+
+export async function doctorProfileViewByToken(userId){
+  let user = await userModel.findById(userId)
+
+  if(!user) return "user not found"
+
+  if(user.role === "doctor"){
+    const doctor = await doctorModel.findOne({userId})
+    const doctorId = doctor._id
+    const doctorData = await doctorProfileView(doctorId)
+    return doctorData
+  }
 }
+
+
+export async function doctorProfileViewById(userId){
+  let user = await userModel.findById(userId)
+
+  if(!user) return "user not found"
+
+  if(user.role === "doctor"){
+    const doctor = await doctorModel.findOne({userId})
+    const doctorId = doctor._id
+    const doctorData = await doctorProfileView(doctorId)
+    return doctorData
+  }
+}
+
+
+
+export async function doctorSingleView(doctorId,userId){
+  const user = await userModel.findById(userId);
+  if(!user) return "user not found"
+  if(user.role === "doctor"){
+    const doctor = await doctorModel.findOne({userId})
+    const doctorId = doctor._id
+    console.log("doctorrr: ",doctor);
+    const doctorData = await doctorModel.findById(doctorId).populate("userId", ["username", "name", "address", "mobileNo", "email"]);
+    console.log("doctordata: ",doctorData);
+    return doctorData
+
+  }
+
+}
+
+
+export async function doctorSingleViewByToken(userId){
+  const user = await userModel.findById(userId);
+  if(!user) return "user not found"
+  if(user.role === "doctor"){
+    const doctor = await doctorModel.findOne({userId})
+    const doctorId = doctor._id
+    console.log("doctorrr: ",doctor);
+    const doctorData = await doctorModel.findById(doctorId).populate("userId", ["username", "name", "address", "mobileNo", "email"]);
+    console.log("doctordata: ",doctorData);
+    return doctorData
+
+  }
+
+}
+
+
 
 // export async function updateDoctorDetails(userId,doctorId, doctorData) {
 //   await getDoctorByUserId(userId)

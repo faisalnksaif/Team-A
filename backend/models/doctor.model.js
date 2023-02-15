@@ -5,6 +5,11 @@ const doctorSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref:"User"
   },
+  hospital:{
+    type: mongoose.Schema.Types.String,
+    required : true
+
+  },
   isAccepted:{
     type: mongoose.Schema.Types.Boolean,
     default:false

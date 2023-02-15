@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsPhoneNumber, IsString } from "class-validator";
+import { IsDate, IsDateString, IsNotEmpty, IsNumber, IsPhoneNumber, IsString } from "class-validator";
 
 export class appointmentDto {
     @IsNotEmpty()
@@ -24,5 +24,14 @@ export class appointmentDto {
     @IsNotEmpty()
     @IsPhoneNumber()
     contactNo
+
+    @IsNotEmpty()
+    @IsString()
+    appointmentFor
+
+    @IsNotEmpty()
+    @IsString()
+    date
+
 
 }

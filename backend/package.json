@@ -26,6 +26,7 @@
     "http-exception": "^0.0.2",
     "jsonwebtoken": "^9.0.0",
     "lodash": "^4.17.21",
+    "moment": "^2.29.4",
     "mongodb": "^4.12.1",
     "mongoose": "^6.8.3"
   },

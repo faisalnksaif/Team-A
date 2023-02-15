@@ -1,8 +1,15 @@
 import mongoose, { Schema, Types } from "mongoose";
 import { isValidMobileNumber } from "../utils/util.js";
+import moment from 'moment'
 
 
 export const appointmentSchema = new mongoose.Schema({
+    username:{
+        type:mongoose.Schema.Types.String,
+        required:true,
+        ref:"User"
+
+    },
     name:{
         type:mongoose.Schema.Types.String,
         required:true,
@@ -42,8 +49,18 @@ export const appointmentSchema = new mongoose.Schema({
       appointmentFor:{
         type: mongoose.Schema.Types.String,
         required: true,
-        enum:['Doctor Check','Result Analysis','Check up']
+        enum:['DoctorCheck','ResultAnalysis','Checkup']
+      },
+      date:{
+        type: mongoose.Schema.Types.String,
+        required: true,
+        unique: true,
+        validate: {
+          validator: (v) => moment(v).isValid(),
+          message: "Invalid date format. Date must be a ISOString",
+        },
       }
+    
 })
 
 const appointmentModel = mongoose.model("patient",appointmentSchema)
