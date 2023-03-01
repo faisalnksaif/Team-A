@@ -25,7 +25,7 @@ import dotenv from "dotenv";
   app.use("/user", userRouter);
   app.use(authenticationRouter);
   app.use("/hospital", hospitalRouter);
-  app.use("/patient", appointmentRouter);
+  app.use("/appointment", appointmentRouter);
   app.use(errorMiddleware);
   const port = process.env.PORT
   app.listen(port || 4000, function () {

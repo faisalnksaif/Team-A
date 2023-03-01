@@ -1,9 +1,9 @@
 import { IsIn, IsNotEmpty, IsString, MaxLength, MinLength } from "class-validator";
 
 export class Doctor {
-  @IsNotEmpty()
-  @IsString()
-  department;
+  // @IsNotEmpty()
+  // @IsString()
+  // department;
 
   @IsNotEmpty()
   @IsString()

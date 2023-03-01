@@ -1,5 +1,4 @@
 import jwt from "jsonwebtoken";
-// import config from "dotenv";
 import userModel from "../models/user.model";
 import doctorModel from "../models/doctor.model.js";
 
@@ -8,7 +7,7 @@ export async function verifyUser(req, res, next) {
 
   // if (!token) {
   if (!token) {
-    res.status(401).send("Access denied.No token provided");
+    res.status(401).send({message:"Access denied.No token provided"});
   }
   try {
     const decoded = jwt.verify(token, process.env.TOKEN_KEY);
@@ -17,7 +16,7 @@ export async function verifyUser(req, res, next) {
     req.body.user = user;
     next();
   } catch (error) {
-    res.status(400).send("Invalid token");
+    res.status(400).send({error:"Invalid token"});
   }
 }
 
@@ -58,11 +57,11 @@ export async function doctorMiddleware(req, res, next) {
     console.log("user: ", user._id);
 
     if (user.role != "doctor")
-      return res.status(403).send("Access denied.Not a doctor!");
+      return res.status(403).send({message:"Access denied.Not a doctor!"});
     req.body.user = user;
     next();
   } catch (error) {
-    return res.status(400).send("Invalid token");
+    return res.status(400).send({error:"Invalid token"});
   }
 }
 
@@ -74,11 +73,11 @@ export async function userMiddleware(req, res, next) {
       console.log("user: ", user._id);
   
       if (user.role != "patient")
-        return res.status(403).send("Access denied.Not a patient!");
+        return res.status(403).send({message:"Access denied.Not a patient!"});
       req.body.patient = user;
       next();
     } catch (error) {
-      return res.status(400).send("Invalid token");
+      return res.status(400).send({error:"Invalid token"});
     }
   }
   

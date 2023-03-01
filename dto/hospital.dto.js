@@ -1,20 +1,18 @@
-import { IsNotEmpty, IsPhoneNumber, IsString } from "class-validator"
+import { IsNotEmpty, IsPhoneNumber, IsString } from "class-validator";
 
+export class hospital {
+  @IsString()
+  @IsNotEmpty()
+  hospitalName;
 
+  @IsString()
+  @IsNotEmpty()
+  address;
 
-export class hospital{
-    @IsString()
-    @IsNotEmpty()
-    hospitalName
+  @IsString()
+  @IsNotEmpty()
+  place;
 
-    @IsString()
-    @IsNotEmpty()
-    address
-
-    @IsString()
-    @IsNotEmpty()
-    place
-
-    @IsPhoneNumber()
-    mobileNo
-} 
+  @IsPhoneNumber()
+  mobileNo;
+}

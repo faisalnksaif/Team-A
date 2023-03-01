@@ -8,11 +8,11 @@ import {
 } from "class-validator";
 
 export class User {
-  @IsNotEmpty()
+  @IsNotEmpty({message:"username is required"})
   @IsString()
   username;
 
-  @IsNotEmpty()
+  @IsNotEmpty({message:"password is required"})
   @IsString()
   @MinLength(6)
   password;

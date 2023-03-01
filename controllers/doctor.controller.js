@@ -8,6 +8,7 @@ import {
   doctorSingleView,
   doctorSingleViewByToken,
   getAll,
+  getDoctors,
   updateDoctorDetails,
 } from "../services/doctor.service.js";
 
@@ -21,7 +22,7 @@ import {
 // }
 
 export async function getDoctorList(req, res) {
-  const doctors = await getAll();
+  const doctors = await getDoctors();
   res.send({ doctors });
 }
 

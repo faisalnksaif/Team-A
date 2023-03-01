@@ -29,7 +29,7 @@ export async function signUp(req, res, next) {
     res.send({ user });
   } catch (error) {
     // console.log(error);
-    next(error);
+    next({error});
   }
 }
 
@@ -40,10 +40,20 @@ export async function signIn(req, res, next) {
   const userData = req.body;
   try {
     const result = await userLogin(userData);
-    res.send(result);
+    res.send({result});
   } catch (error) {
     console.log(error);
     next({ error });
+  }
+}
+
+export async function signOut(req,res,next){
+  try {
+    res.clearCookie("token")
+    res.status(200).send("Logged out successfully");
+  } catch (error) {
+    console.log(error);
+    next({error})
   }
 }
 

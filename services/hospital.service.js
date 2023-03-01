@@ -10,7 +10,7 @@ export async function save(hospitalName, address, place, mobileNo) {
   });
   await result.save();
 
-  return { result };
+  return result ;
 }
 
 export async function getAll() {
@@ -21,7 +21,7 @@ export async function getAll() {
 
 export async function getSingleView(id) {
   const singleView = await HospitalModel.findById(id);
-  return { singleView };
+  return  singleView ;
 }
 
 export async function update(req, res) {
@@ -36,10 +36,10 @@ export async function update(req, res) {
     { new: true }
   );
 
-  return { updatedHospital };
+  return updatedHospital ;
 }
 
 export async function deleteData(id) {
   const deletedHospitalData = await HospitalModel.findByIdAndDelete(id);
-  return { deletedHospitalData };
+  return deletedHospitalData;
 }

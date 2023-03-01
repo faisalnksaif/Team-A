@@ -51,6 +51,6 @@ export async function updateProfile(req, res, next) {
     return res.send( {user} );
   } catch (error) {
     console.log(error);
-    next(error);
+    next({error});
   }
 }

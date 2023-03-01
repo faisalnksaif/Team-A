@@ -3,8 +3,8 @@ import {deleteData, department, getAll, update} from '../services/department.sev
 export async function DepartmentList(req,res,next){
     let departmentName = req.body.departmentName
     try {
-        const departmentList = await department({departmentName})
-        res.send({departmentList})
+        const departmentData = await department({departmentName})
+        res.send({departmentData})
     } catch (error) {
         next({error})
     }
@@ -13,7 +13,7 @@ export async function DepartmentList(req,res,next){
 
 export async function getDepartmentList(req,res){
     const { result } = await getAll()
-    res.send(result)
+    res.send({result})
 }
 
 export async function updateDepartment(req,res,next){

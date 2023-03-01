@@ -7,7 +7,7 @@ const router = express.Router()
 
 
 // router.get("/profile/:id",verifyUser,doctorMiddleware,profile)
-router.get("/list",verifyUser,getDoctorList)
+router.get("/list",getDoctorList)
 router.get("/singleview/:id",getDoctorSingleView)
 router.get("/doctorsingleview",doctorMiddleware,getDoctorSingleViewByToken)
 router.get("/doctorprofile",doctorMiddleware,doctorProfileByToken)

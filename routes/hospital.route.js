@@ -18,12 +18,12 @@ const router = express.Router()
 
 // }
 
-router.post("/",makeValidateBody(hospital),hospitalMiddleware,hospitalData);
+router.post("/create",makeValidateBody(hospital),hospitalMiddleware,hospitalData);
 
 router.get("/",getHospitals);
-router.get("/:id",getHospital)
-router.patch("/:id",updateData)
-router.delete("/:id",deleteHospital)
+router.get("/singleview/:id",getHospital)
+router.patch("/update/:id",updateData)
+router.delete("/delete/:id",deleteHospital)
 
 
 export default router;

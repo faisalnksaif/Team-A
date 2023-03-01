@@ -14,7 +14,7 @@ export async function hospitalData(req, res, next) {
 
   try {
     const result = await save(hospitalName, address, place, mobileNo);
-    res.send(result);
+    res.send({result});
   } catch (err) {
     next({err});
 
@@ -24,7 +24,7 @@ export async function hospitalData(req, res, next) {
 
 export async function getHospitals(req, res) {
   const { result } = await getAll();
-  res.send(result);
+  res.send({result});
 }
 
 export async function getHospital(req, res, next) {
