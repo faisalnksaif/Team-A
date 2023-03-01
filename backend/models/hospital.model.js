@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { isValidMobileNumber } from "../utils/util.js";
 
 const hospitalSchema = new mongoose.Schema({
   hospitalName: {
@@ -13,28 +14,17 @@ const hospitalSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.String,
     required: true,
   },
-  // logitude:{
-  //     type : mongoose.Schema.Types.String,
-  //     required : true
-  // },
-  // latitude:{
-  //     type : mongoose.Schema.Types.String,
-  //     required : true
-  // },
-  // location:{
-  //     type:{
-  //     type:mongoose.Schema.Types.String,
-  //     enum:['point'],
-  //     required:true
-  //     }
-
-  // },
+  
   mobileNo: {
     type: mongoose.Schema.Types.String,
     required: true,
+    // match:/^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im
+    validate: {
+      validator: (v) => isValidMobileNumber(v),
+      message: "Invalid mobile number",
+    },
   },
 });
-hospitalSchema.index({ location: "2dsphere" });
 
 const hospital = mongoose.model("hospital", hospitalSchema);
 export default hospital;

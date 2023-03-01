@@ -9,7 +9,7 @@ import { department } from "./department.sevice.js";
 
 export async function userSignUp(userData,doctorData) {
   let findUser = await getUserByUsername(userData);
-  if (findUser) return "user already registerd";
+  if (findUser) return {error:"user already registerd"};
   // console.log("userData:",userData);
   let password = userData.password;
   const salt = await bcrypt.genSalt(10);
@@ -35,7 +35,7 @@ export async function userSignUp(userData,doctorData) {
 export async function userLogin(userData) {
   let user = await getUserByUsername(userData); //
   console.log("user: ", user);
-  if (!user) return "user not found";
+  if (!user) return {error:"user not found"};
 
   // console.log('userData: ',userData);
   const validPassword = await bcrypt.compare(userData.password, user.password);
@@ -45,7 +45,7 @@ export async function userLogin(userData) {
   if (user.role === "doctor") {
     const userId = user._id;
     let doctor = await getDoctorByUserId(userId); //
-    if (doctor && !doctor.isAccepted) return "doctor not accepted by admin";
+    if (doctor && !doctor.isAccepted) return {error:"doctor not accepted by admin"};
   }
   let token = jwt.sign({ _id: user._id }, process.env.TOKEN_KEY);
 
@@ -56,4 +56,5 @@ export async function userLogin(userData) {
   // user.token = token;
   return roleToken;
 }
+
 

@@ -14,11 +14,11 @@ export class RegistrationDto {
 }
 
 export class LoginDto {
-  @IsNotEmpty()
+  @IsNotEmpty({message:"username is required"})
   @IsString()
   username;
 
-  @IsNotEmpty()
+  @IsNotEmpty({message:"password is required"})
   @IsString()
   password;
 

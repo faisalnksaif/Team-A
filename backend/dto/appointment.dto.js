@@ -30,8 +30,12 @@ export class appointmentDto {
     appointmentFor
 
     @IsNotEmpty()
-    @IsString()
+    @IsDate()
     date
+
+    @IsNotEmpty()
+    @IsString()
+    time
 
 
 }

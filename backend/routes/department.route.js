@@ -7,7 +7,7 @@ const router = express.Router()
 
 router.post("/list",verifyUser,DepartmentList)
 router.get("/alldepartment",verifyUser,getDepartmentList)
-router.put("/updatedepartment/:id",verifyUser,updateDepartment)
+router.put("/updatedepartment/:id",updateDepartment)
 router.delete("/deletedepartment/:id",verifyUser,deleteDepartment)
 
 

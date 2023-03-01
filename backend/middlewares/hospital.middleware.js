@@ -9,21 +9,21 @@ import { isValidMobileNumber } from "../utils/util.js";
         let mobileNo=req.body.mobileNo;
 
        if (!hospitalName) {
-        res.send("Hospital Name is required")    
+        res.send({message:"Hospital Name is required"})    
        }
 
        if (!address) {
-        res.send("address Name is required")    
+        res.send({message:"address Name is required"})    
        }
        if (!place) {
-        res.send("place Name is required")    
+        res.send({message:"place Name is required"})    
        }
        if (!mobileNo) {
-        res.send("mobileNo Name is required")    
+        res.send({message:"mobileNo Name is required"})    
        }
     //    console.log("mobileNo",mobileNo.length);
        if (!isValidMobileNumber(mobileNo)) {
-        res.send("your mobile number not match required format")
+        res.send({message:"your mobile number not match required format"})
        }
 
        next()
