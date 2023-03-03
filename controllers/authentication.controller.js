@@ -59,30 +59,30 @@ export async function signOut(req,res,next){
 
 //----------update--------
 
-// export async function updateProfile(req, res, next) {
-//   try {
-//     let user = await userModel.findById(req.params.id); //
+export async function updateProfile(req, res, next) {
+  try {
+    let user = await userModel.findById(req.params.id); //
 
-//     if (!user) return res.status(404).send({ error: "user not found" });
-//     const userId = req.params.id;
+    if (!user) return res.status(404).send({ error: "user not found" });
+    const userId = req.params.id;
 
-//     if (user) {
-//       const userData = req.body.user;
+    if (user) {
+      const userData = req.body.user;
 
-//       await updateUserDetails(userId, userData);
-//     }
+      await updateUserDetails(userId, userData);
+    }
 
-//     if (user.role === "doctor") {
-//       const doctor = await doctorModel.findOne({ userId });
-//       const doctorId = doctor._id;
-//       const doctorData = req.body.doctor;
-//       await updateDoctorDetails(doctorId, doctorData);
-//     }
-//     res.send({ success: true });
-//   } catch (error) {
-//     return res.status(500).send({ error: "updation failed" });
-//   }
-// }
+    if (user.role === "doctor") {
+      const doctor = await doctorModel.findOne({ userId });
+      const doctorId = doctor._id;
+      const doctorData = req.body.doctor;
+      await updateDoctorDetails(doctorId, doctorData);
+    }
+    res.send({ success: true });
+  } catch (error) {
+    return res.status(500).send({ error: "updation failed" });
+  }
+}
 
 //------update by token---
 
@@ -156,14 +156,14 @@ export async function getUserDetails(req, res, next) {
   }
 }
 
-export async function getDoctorDetails(req, res, next) {
-  try {
-    let doctors = await doctorModel
-      .find()
-      .populate("userId", ["username", "name", "address", "mobileNo", "email"]);
-    return res.send({ doctors });
-  } catch (error) {
-    next({ error });
-  }
-}
+// export async function getDoctorDetails(req, res, next) {
+//   try {
+//     let doctors = await doctorModel
+//       .find()
+//       .populate("userId", ["username", "name", "address", "mobileNo", "email"]);
+//     return res.send({ doctors });
+//   } catch (error) {
+//     next({ error });
+//   }
+// }
 

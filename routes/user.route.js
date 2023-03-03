@@ -15,7 +15,7 @@ router.get("/profile",verifyUser,userProfileView)
 router.get("/profileview/:id",patientProfileById)
 
 router.put("/updateprofile/:id",updateProfile)
-// router.put("/updateprofile",verifyUser,updateProfileView)
+// router.patch("/updateprofile",verifyUser,updateProfileView)
 
 // router.delete("/delete/:id",deleteUserProfile)
 

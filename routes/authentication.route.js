@@ -12,10 +12,10 @@ const path = "/auth"
 router.post(`${path}/sign-up`,makeValidateBody(RegistrationDto),signUp);
 router.post(`${path}/sign-in`,makeValidateBody(LoginDto),signIn);
 router.post(`${path}/sign-out`,signOut);
-// router.put(`${path}/update/:id`,updateUserMiddlewar,updateProfile);
+router.patch(`${path}/update/:id`,updateUserMiddlewar,updateProfile);
 router.delete(`${path}/delete/:id`,deleteProfile);
 router.get(`${path}/userdetails`,getUserDetails);
-router.put(`${path}/updateProfile`,updateProfileByToken);
+router.put(`${path}/updateProfile`,updateUserMiddlewar,updateProfileByToken);
 
 
 // router.get(`${path}/doctordetails`,getDoctorDetails);
