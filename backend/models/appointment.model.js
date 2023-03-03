@@ -18,11 +18,11 @@ export const appointmentSchema = new mongoose.Schema({
     // required:true,
     ref: "User",
   },
-  departmentId: {
-    type: mongoose.Schema.Types.ObjectId,
-    // required:true,
-    ref: "department",
-  },
+  // departmentId: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   // required:true,
+  //   ref: "department",
+  // },
 
   name: {
     type: mongoose.Schema.Types.String,

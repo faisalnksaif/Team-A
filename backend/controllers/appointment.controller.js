@@ -1,11 +1,17 @@
 // import doctor from "../models/doctor.model.js";
+import mongoose from "mongoose";
 import {
+  appointmentByToken,
   bookAppointment,
+  deleteAppointmentData,
+  deleteByToken,
   getAppointments,
   getAppointmentsByDoctor,
   getPostAppointment,
   getTodayAppointments,
   pastAppointment,
+  singleAppointment,
+  updateAppointment,
 } from "../services/appointment.service.js";
 import { saveAppoinment } from "../services/appointment.service.js";
 import { findDepartment } from "../services/department.sevice.js";
@@ -28,7 +34,7 @@ export async function appoinmentData(req, res, next) {
       doctorId: doctorID,
       // departmentId:departmentId
     });
-   return res.status(200).send({ result });
+    return res.status(200).send({ result });
   } catch (error) {
     console.log(error);
     next({ error });
@@ -38,7 +44,7 @@ export async function appoinmentData(req, res, next) {
 export async function patients(req, res, next) {
   try {
     const getPatients = await getAppointments();
-   return res.send({ getPatients });
+    return res.send({ getPatients });
   } catch (error) {
     // console.log(error);
     next({ error });
@@ -60,8 +66,6 @@ export async function patients(req, res, next) {
 //   }
 // }
 
-
-
 export async function appointmentsByDoctorByToken(req, res, next) {
   try {
     const doctorId = req.body.doctorId;
@@ -69,10 +73,9 @@ export async function appointmentsByDoctorByToken(req, res, next) {
     console.log("doctorid: ", doctorId);
     const appointmentData = await getAppointmentsByDoctor(doctorId);
     res.send({ appointmentData });
-    console.log("appontmntData: ",appointmentData);
-
+    console.log("appontmntData: ", appointmentData);
   } catch (error) {
-    console.log("errorrr: ",error);
+    console.log("errorrr: ", error);
     next({ error });
   }
 }
@@ -81,18 +84,24 @@ export async function pastAppointmentData(req, res, next) {
   const today = new Date();
   try {
     const appointment = await pastAppointment(today);
+    console.log("past appointments:", appointment);
     res.send({ appointment });
-  } catch (error) {}
+  } catch (error) {
+    console.log("Error:", error);
+    next({ error });
+  }
 }
 
 export async function todayAppointments(req, res, next) {
   try {
     const today = new Date();
-    const tomorrow = new Date(today);
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    console.log("Today:", today, "Tomorrow:", tomorrow);
-    const appointment = await getTodayAppointments(today, tomorrow);
-    console.log("appnmnt: ", appointment);
+    const startOfDay = new Date(today);
+    startOfDay.setHours(0, 0, 0, 0);
+    const endOfDay = new Date(today);
+    endOfDay.setHours(23, 59, 59, 999);
+
+    const appointment = await getTodayAppointments(startOfDay, endOfDay);
+    console.log("today appnmnt: ", appointment);
     res.send({ appointment });
   } catch (error) {
     console.log("error: ", error);
@@ -103,11 +112,76 @@ export async function todayAppointments(req, res, next) {
 export async function postAppointment(req, res, next) {
   try {
     const today = new Date();
-    // const tomorrow = new Date(today)
-    // tomorrow.setDate(tomorrow.getDate() + 1)
     const appointment = await getPostAppointment(today);
+    console.log("post appointment::", appointment);
     res.send({ appointment });
   } catch (error) {
     next({ error });
+  }
+}
+
+//------------------delete appointment-----------//
+
+export async function deleteAppointment(req, res, next) {
+  try {
+    const id = req.params.id;
+    const deleteData = await deleteAppointmentData(id);
+    res.send({ deleteData });
+  } catch (error) {
+    console.log("error", error);
+    next({ error });
+  }
+}
+
+export async function deleteAppointmentByToken(req, res, next) {
+  try {
+    const userId = req.body.patient._id;
+    const appointmentId = req.params.id;
+    console.log("appointmentId",appointmentId);
+    const deleteAppntmnt = await deleteByToken(userId, appointmentId);
+    res.send({ deleteAppntmnt });
+  } catch (error) {
+    console.log("error", error);
+    next({ error });
+  }
+}
+
+
+export async function getSingleAppntmnt(req,res,next){
+  const id = mongoose.Types.ObjectId(req.params.id.trim());
+  try{
+    const singleView = await singleAppointment(id)
+    console.log("singleView:",singleView);
+    res.status(200).send({singleView})
+  }catch(error){
+    console.log("error:",error);
+    next({error})
+  }
+  
+}
+
+
+export async function singleAppointmentByToken(req,res,next){
+  const userId = req.body.patient._id
+  const id = req.params.id
+  try{
+    const singleView = await appointmentByToken(id,userId)
+    console.log("singleView:",singleView);
+    res.status(200).send({singleView})
+  }catch(error){
+    console.log("error:",error);
+    next({error})
+  }
+}
+
+export async function updateAppointmentById(req,res,next){
+  try {
+    const appointmentData = req.body
+    const appoinmentId = mongoose.Types.ObjectId(req.params.id.trim());
+    const updateData = await updateAppointment(appointmentData,appoinmentId)
+    res.status(200).send({updateData})
+  } catch (error) {
+    console.log("aaa:",error);
+    next({error})
   }
 }

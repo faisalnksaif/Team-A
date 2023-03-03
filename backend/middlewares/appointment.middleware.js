@@ -3,7 +3,6 @@ import moment from "moment";
 export function appointmentMiddleware(req, res, next) {
   let {
     doctorId,
-    departmentId,
     name,
     age,
     gender,
@@ -17,9 +16,9 @@ export function appointmentMiddleware(req, res, next) {
   if (!doctorId) {
     res.send({ message: "doctorId is reqiured" });
   }
-  if (!departmentId) {
-    res.send({ message: "departmentId is reqiured" });
-  }
+  // if (!departmentId) {
+  //   res.send({ message: "departmentId is reqiured" });
+  // }
 
   if (!name) {
     res.send({ message: "name is reqiured" });
