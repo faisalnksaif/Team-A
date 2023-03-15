@@ -54,3 +54,24 @@ export async function updateProfile(req, res, next) {
     next({error});
   }
 }
+
+
+
+export async function updateProfileByToken(req, res, next) {
+  try {
+    const userId = req.body.id;
+    const userData = req.body.user;
+    
+
+    const user = await updateUserDetails(
+      userId,
+      userData,
+     
+    );
+    // console.log("data: ", user);
+    return res.send( {user} );
+  } catch (error) {
+    console.log(error);
+    next({error});
+  }
+}

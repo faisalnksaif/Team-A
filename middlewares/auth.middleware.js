@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import userModel from "../models/user.model";
+import userModel from "../models/user.model.js";
 import doctorModel from "../models/doctor.model.js";
 
 export async function verifyUser(req, res, next) {
@@ -58,7 +58,7 @@ export async function doctorMiddleware(req, res, next) {
 
     if (user.role != "doctor")
       return res.status(403).send({message:"Access denied.Not a doctor!"});
-    req.body.user = user;
+    req.body.doctor = user;
     next();
   } catch (error) {
     return res.status(400).send({error:"Invalid token"});

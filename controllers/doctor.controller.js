@@ -1,3 +1,5 @@
+import { ObjectId } from "mongodb";
+import mongoose from "mongoose";
 import {
   approveDoctorStatus,
   deleteDoctorDetails,
@@ -7,10 +9,12 @@ import {
   doctorProfileViewByToken,
   doctorSingleView,
   doctorSingleViewByToken,
+  findDoctor,
   getAll,
   getDoctors,
-  updateDoctorDetails,
+  updateDoctor,
 } from "../services/doctor.service.js";
+import { findUserById, updateUser, updateUserDetails } from "../services/user.service.js";
 
 // export async function profile(req, res, next) {
 //   try {
@@ -106,5 +110,42 @@ export async function getDoctorSingleViewByToken(req, res, next) {
   } catch (error) {
     console.log(error);
     next({ error });
+  }
+}
+
+export async function updateDoctorByToken(req, res, next) {
+
+  try {
+
+    let userId = req.body.doctor._id
+    console.log(userId)
+    let user = await findUserById(userId);
+    if (!user) return res.status(400).send({ message: "user not found" })
+
+    if (user) {
+      const userData = req.body.user
+
+      await updateUser(
+        userId,
+        userData)
+    }
+
+    if (user.role === "doctor") {
+      const doctor = await findDoctor(userId)
+      const doctorId = doctor._id;
+      const doctorData = req.body.doctor
+
+      await updateDoctor(
+        doctorId,
+        doctorData
+
+      )
+    }
+
+    console.log(user);
+    res.send({ success: true });
+  } catch (err) {
+    console.log(err);
+    next(err);
   }
 }

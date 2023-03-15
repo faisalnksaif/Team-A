@@ -125,8 +125,44 @@ export async function deleteDoctorDetails(doctorId) {
   return { deleteDoctor };
 }
 
-export async function findDoctor(doctorID) {
-  const doctor = await doctorModel.findById( doctorID);
-  const doctorId = doctor.userId
-  return doctorId;
+// export async function findDoctor(doctorID) {
+//   const doctor = await doctorModel.findById( doctorID);
+//   const doctorId = doctor.userId
+//   return doctorId;
+// }
+export async function findDoctor(userId){
+  const doctor = await doctorModel.findOne({userId:userId})
+  console.log("doctor::",doctor);
+  return doctor
+}
+
+// export async function findDoctor(userId){
+//   const doctor = await doctorModel.findOne({userId:userId})
+//   return {doctor}
+// }
+
+// export async function  updateUserDetails(doctorId,doctorData) {
+//   const result = await doctorModel.findByIdAndUpdate(doctorId,doctorData, 
+
+//    {
+//       new: true
+//   })
+//   return { result }
+
+// }
+export async function  updateDoctor(doctorId,doctorData) {
+  const result = await doctorModel.findByIdAndUpdate(doctorId,doctorData, 
+
+   {
+      new: true
+  })
+  return { result }
+
+}
+
+
+export async function findDoctoryd(doctorID){
+  const doctor = await doctorModel.findOne({doctorID:doctorID})
+  console.log("doctor::",doctor);
+  return doctor
 }

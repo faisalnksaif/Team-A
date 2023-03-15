@@ -5,6 +5,7 @@ import {
   bookAppointment,
   deleteAppointmentData,
   deleteByToken,
+  getAll,
   getAppointments,
   getAppointmentsByDoctor,
   getPostAppointment,
@@ -12,6 +13,7 @@ import {
   pastAppointment,
   singleAppointment,
   updateAppointment,
+  updateByToken,
 } from "../services/appointment.service.js";
 import { saveAppoinment } from "../services/appointment.service.js";
 import { findDepartment } from "../services/department.sevice.js";
@@ -43,7 +45,10 @@ export async function appoinmentData(req, res, next) {
 
 export async function patients(req, res, next) {
   try {
-    const getPatients = await getAppointments();
+    const query = req.query
+      const page = req.query.page
+      const limit = (req.query.limit || '10') 
+    const getPatients = await getAppointments(page, limit, query);
     return res.send({ getPatients });
   } catch (error) {
     // console.log(error);
@@ -66,19 +71,37 @@ export async function patients(req, res, next) {
 //   }
 // }
 
-export async function appointmentsByDoctorByToken(req, res, next) {
-  try {
-    const doctorId = req.body.doctorId;
 
-    console.log("doctorid: ", doctorId);
-    const appointmentData = await getAppointmentsByDoctor(doctorId);
-    res.send({ appointmentData });
-    console.log("appontmntData: ", appointmentData);
-  } catch (error) {
-    console.log("errorrr: ", error);
-    next({ error });
+
+export async function getAllAppoinmentsDoctorByToken(req,res,next){
+
+  try{
+    console.log("body",req.body);
+    const doctorId = req.params.doctor._id
+
+      console.log(doctorId)
+      const appoinmentData = await getAppointmentsByDoctor(doctorId)
+      res.status(200).send(appoinmentData)
+
+  }catch(err){
+    console.log(err);
+      next(err)
   }
 }
+
+// export async function appointmentsByDoctorByToken(req, res, next) {
+//   try {
+//     const doctorId = req.body.doctorId;
+
+//     console.log("doctorid: ", doctorId);
+//     const appointmentData = await getAppointmentsByDoctor(doctorId);
+//     res.send({ appointmentData });
+//     console.log("appontmntData: ", appointmentData);
+//   } catch (error) {
+//     console.log("errorrr: ", error);
+//     next({ error });
+//   }
+// }
 
 export async function pastAppointmentData(req, res, next) {
   const today = new Date();
@@ -181,7 +204,21 @@ export async function updateAppointmentById(req,res,next){
     const updateData = await updateAppointment(appointmentData,appoinmentId)
     res.status(200).send({updateData})
   } catch (error) {
-    console.log("aaa:",error);
+    console.log("error:",error);
     next({error})
+  }
+}
+
+export async function updateAppoinmentByToken(req,res,next){
+  try{
+
+      const userId = req.body.patient._id
+      const appoinmentId = req.params.id
+      const appoinmentData = req.body
+      const appoinments = await updateByToken(userId,appoinmentData,appoinmentId);
+      res.status(200).send(appoinments)
+
+  }catch(err){
+      next(err)
   }
 }

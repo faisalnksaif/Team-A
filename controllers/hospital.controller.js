@@ -31,7 +31,9 @@ export async function getHospital(req, res, next) {
   try {
     const viewHospital = await getSingleView(req.params.id);
     res.send({viewHospital});
+    console.log('viewhsptl:',viewHospital);
   } catch (error) {
+    console.log(error);
     next({error});
   }
 }

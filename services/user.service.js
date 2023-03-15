@@ -39,24 +39,40 @@ export async function getProfileByToken(userId) {
 
 //-----------update-----------
 
-export async function updateUserDetails(
-  userId,
-  userData,
-  
-) {
+export async function updateUserDetails(userId, userData) {
   let user = await userModel.findByIdAndUpdate(userId, userData, {
     new: true,
   });
   console.log("userdata: ", userData);
-
-  console.log("User:", user);
-
-  // if (!user) return "No user found";
-
   return user;
 }
 
 export async function deleteUser(userId) {
   const deleteUserData = await userModel.findByIdAndDelete(userId);
   return { deleteUserData };
+}
+
+// export async function findUserById(userId){
+
+//   const user = await userModel.findById(userId)
+//   return {user}
+// }
+
+export async function findUserById(userId) {
+  const user = await userModel.findById({userId:userId});
+  return { user };
+}
+
+export async function updateUser(userId, userData) {
+  const userProfile = await userModel.findByIdAndUpdate(
+    userId,
+    userData,
+
+    {
+      new: true,
+    }
+  );
+  console.log("userProfile:",userProfile)
+
+  return { userProfile };
 }

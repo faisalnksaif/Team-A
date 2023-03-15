@@ -4,6 +4,7 @@ import { makeValidateBody} from 'express-class-validator'
 import { LoginDto, RegistrationDto } from '../dto/authentication.dto.js';
 // import { updationDto } from '../dto/update.dto.js';
 import { updateUserMiddlewar } from '../middlewares/update.middleware.js';
+import { userMiddleware, verifyUser } from '../middlewares/auth.middleware.js';
 
 
 const router = express.Router()
@@ -15,7 +16,9 @@ router.post(`${path}/sign-out`,signOut);
 router.patch(`${path}/update/:id`,updateUserMiddlewar,updateProfile);
 router.delete(`${path}/delete/:id`,deleteProfile);
 router.get(`${path}/userdetails`,getUserDetails);
-router.put(`${path}/updateProfile`,updateUserMiddlewar,updateProfileByToken);
+router.patch(`${path}/updateProfile`,verifyUser,updateUserMiddlewar,updateProfileByToken);
+// router.patch(`${path}/update/:id`,updateProfile);
+
 
 
 // router.get(`${path}/doctordetails`,getDoctorDetails);
