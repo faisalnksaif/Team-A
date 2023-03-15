@@ -87,7 +87,7 @@ export const appointmentSchema = new mongoose.Schema({
       message: "Invalid time format. Time must be in HH:mm formate"
     }
   }
-});
+},{timestamps:true});
 
 const appointmentModel = mongoose.model("appointment", appointmentSchema);
 export default appointmentModel;

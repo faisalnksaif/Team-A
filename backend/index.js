@@ -8,13 +8,11 @@ import userRouter from "./routes/user.route.js";
 import doctorRouter from "./routes/doctor.route.js";
 import departmentRouter from "./routes/department.route.js";
 import appointmentRouter from "./routes/appointment.route.js";
-
 import dotenv from "dotenv";
 (async () => {
   var app = express();
 
   await initialize();
-
   dotenv.config();
 
   app.use(cors({ origin: true, credentials: true }));
@@ -29,7 +27,7 @@ import dotenv from "dotenv";
   app.use(errorMiddleware);
   const port = process.env.PORT
   app.listen(port || 4000, function () {
-    console.log(`${port} server connected`);
+    console.log("server connected");
   });
 })();
 

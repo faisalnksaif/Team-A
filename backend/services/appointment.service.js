@@ -1,5 +1,8 @@
 // // import { Error } from "mongoose";
 import moment from "moment";
+import _ from "lodash";
+import { toNumber } from "lodash";
+
 import appointmentModel from "../models/appointment.model.js";
 // import userModel from "../models/user.model.js";
 // import { getUserByUsername } from "./user.service.js";
@@ -26,13 +29,36 @@ export async function saveAppoinment(appoinmentData) {
 
 //--------------------------------get all appointments----------------
 
-export async function getAppointments() {
+export async function getAppointments(page, limit, query) {
+  const queryData = {}
+  if(query?.search){
+    queryData["$or"]=[
+      {name : { $regex: query?.search ? query?.search : '', $options: 'i' }}, 
+      {place : { $regex: query?.search ? query?.search : '', $options: 'i' }}, 
+
+    ]
+  }
   const appointments = await appointmentModel
-    .find({})
+    .find(queryData)
     .populate("userId", ["username", "name"])
     .populate("doctorId", ["hospitalName", "departmentId"])
-    .populate("doctor", ["name"]);
-  return appointments;
+    .populate("doctor", ["name"])
+    .limit(toNumber(limit))
+    .skip((toNumber(page ? page : 1) - 1) * toNumber(limit));
+
+    const total = await appointmentModel
+    .find().countDocuments()
+
+  return {appointments,total};
+}
+
+export async function getAll(doctorId) {
+  const appoinmentData = await appointmentModel
+    .find({ doctorId: doctorId })
+    .populate("userId", ["name", "place", "mobileNo"])
+    .populate("doctor", ["name", "mobileNo"])
+    .populate("doctorId", ["department", "qualification"]);
+  return appoinmentData;
 }
 
 export async function getAppointmentsByDoctor(doctorId) {
@@ -74,58 +100,76 @@ export async function getPostAppointment(today, tomorrow) {
   return postAppointment;
 }
 
-
-
 //-------------delete Appintmnt-------------//
 
-export async function deleteAppointmentData(id){
-  const deleteAppointment = await appointmentModel.findByIdAndDelete(id)
-  return deleteAppointment
+export async function deleteAppointmentData(id) {
+  const deleteAppointment = await appointmentModel.findByIdAndDelete(id);
+  return deleteAppointment;
 }
 
-export async function deleteByToken(userId,appoinmentId){
-  
-  const appointment = await appointmentModel.findOne({userId:userId})
-  if(!appointment){
-    return({message:"No appointment found"})
+export async function deleteByToken(userId, appoinmentId) {
+  const appointment = await appointmentModel.findOne({ userId: userId });
+  if (!appointment) {
+    return { message: "No appointment found" };
   }
-  console.log("userId:",userId, "appointmntId :",appoinmentId);
-  console.log("appntmntt:",appointment);
-  const deleteData = await appointmentModel.findByIdAndDelete(appoinmentId)
-  console.log("idd:",appoinmentId);
-  console.log("dltData::",deleteData);
+  console.log("userId:", userId, "appointmntId :", appoinmentId);
+  console.log("appntmntt:", appointment);
+  const deleteData = await appointmentModel.findByIdAndDelete(appoinmentId);
+  console.log("idd:", appoinmentId);
+  console.log("dltData::", deleteData);
 
-  return deleteData
-
+  return deleteData;
 }
-
 
 //---------singleView of an appointment------//
 
-export async function singleAppointment(id){
-  const singleAppntmnt = await appointmentModel.findById(id).populate("userId", ["username", "name"])
-  .populate("doctorId", ["hospitalName", "departmentId"])
-  .populate("doctor", ["name"]);
-  if(!singleAppntmnt) return "no appointment found"
-  console.log("singleAppntmnt",singleAppntmnt);
-  return singleAppntmnt
+export async function singleAppointment(id) {
+  const singleAppntmnt = await appointmentModel
+    .findById(id)
+    .populate("userId", ["username", "name"])
+    .populate("doctorId", ["hospitalName", "departmentId"])
+    .populate("doctor", ["name"]);
+  if (!singleAppntmnt) return "no appointment found";
+  console.log("singleAppntmnt", singleAppntmnt);
+  return singleAppntmnt;
+}
 
+export async function appointmentByToken(id, userId) {
+  const appointment = await appointmentModel.findOne({ userId });
+  if (!appointment) return "no appointment found";
+  const singleAppntmnt = await appointmentModel
+    .findById(id)
+    .populate("userId", ["username", "name"])
+    .populate("doctorId", ["hospitalName", "departmentId"])
+    .populate("doctor", ["name"]);
+  if (!singleAppntmnt) return "no appointment found";
+  console.log("singleAppntmnt", singleAppntmnt);
+  return singleAppntmnt;
+}
+
+export async function updateAppointment(appoinmentData, appoinmentId) {
+  const appointment = await appointmentModel.findByIdAndUpdate(
+    appoinmentId,
+    { appoinmentData },
+    { new: true }
+  );
+  return appointment;
+}
+
+export async function updateByToken(userId, data, appoinmentId) {
+  const appoinment = await appointmentModel.findOne({ userId: userId });
+  console.log(appoinment);
+
+  if (!appoinment) return "No appoinment is there";
+  // const appoinmentId = appoinment._id
+
+  const appoinmentData = await appointmentModel.findByIdAndUpdate(
+    appoinmentId,
+    data,
+    { new: true }
+  );
+
+  return { appoinmentData };
 }
 
 
-export async function appointmentByToken(id,userId){
-  const appointment = await appointmentModel.findOne({userId})
-  if(!appointment) return "no appointment found"
-  const singleAppntmnt = await appointmentModel.findById(id).populate("userId", ["username", "name"])
-  .populate("doctorId", ["hospitalName", "departmentId"])
-  .populate("doctor", ["name"]);
-  if(!singleAppntmnt) return "no appointment found"
-  console.log("singleAppntmnt",singleAppntmnt);
-  return singleAppntmnt
-
-}
-
-export async function updateAppointment(appoinmentData,appoinmentId){
-  const appointment = await appointmentModel.findByIdAndUpdate(appoinmentId,{appoinmentData},{new:true})
-  return appointment
-}

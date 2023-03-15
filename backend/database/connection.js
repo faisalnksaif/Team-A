@@ -2,6 +2,7 @@ import  mongoose  from 'mongoose';
 mongoose.set('strictQuery', false);
 
 const connection_string =
+// "mongodb://localhost:27017/myDoctor"
   "mongodb+srv://faisalnksaif:yourClassDay1@cluster0.iaoqh.mongodb.net/myDoctor?retryWrites=true&w=majority";
 
 

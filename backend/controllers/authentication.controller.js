@@ -1,12 +1,16 @@
 import {
   deleteUser,
+  findUserById,
   save as saveUser,
+  updateUser,
   updateUserDetails,
 } from "../services/user.service.js";
 import {
   deleteDoctorDetails,
   doctorProfileView,
+  findDoctor,
   save as saveDoctor,
+  updateDoctor,
   updateDoctorDetails,
 } from "../services/doctor.service.js";
 import bcrypt from "bcrypt";
@@ -15,6 +19,8 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import doctorModel from "../models/doctor.model.js";
 import { userLogin, userSignUp } from "../services/authentication.service.js";
+import mongoose from "mongoose";
+import { ObjectID } from "bson";
 
 dotenv.config();
 
@@ -29,10 +35,9 @@ export async function signUp(req, res, next) {
     res.send({ user });
   } catch (error) {
     // console.log(error);
-    next({error});
+    next({ error });
   }
 }
-
 
 //-------sign-in-----
 
@@ -40,20 +45,20 @@ export async function signIn(req, res, next) {
   const userData = req.body;
   try {
     const result = await userLogin(userData);
-    res.send({result});
+    res.send({ result });
   } catch (error) {
     console.log(error);
     next({ error });
   }
 }
 
-export async function signOut(req,res,next){
+export async function signOut(req, res, next) {
   try {
-    res.clearCookie("token")
+    res.clearCookie("token");
     res.status(200).send("Logged out successfully");
   } catch (error) {
     console.log(error);
-    next({error})
+    next({ error });
   }
 }
 
@@ -88,10 +93,16 @@ export async function updateProfile(req, res, next) {
 
 export async function updateProfileByToken(req, res, next) {
   try {
-    let user = await userModel.findById(req.body.user._id); //
+    // const userId = mongoose.Types.ObjectId(req.body.user._id);
+    const id = req.body.user._id;
+    // const userId = new ObjectID(id)
+    const userId = mongoose.Types.ObjectId(req.body.user.id.trim());
+
+    let user = await userModel.findById({ userId: userId });
+    console.log("userrr:", user);
 
     if (!user) return res.status(403).send({ error: "cannot find user" });
-    const userId = req.body.user._id;
+    // const userId = req.body.user._id;
 
     if (user) {
       const userData = req.body.user;
@@ -100,13 +111,14 @@ export async function updateProfileByToken(req, res, next) {
     }
 
     if (user.role === "doctor") {
-      const doctor = await doctorModel.findOne({ userId });
+      const doctor = await doctorModel.findOne({ userId: userId });
       const doctorId = doctor._id;
       const doctorData = req.body.doctor;
       await updateDoctorDetails(doctorId, doctorData);
     }
     res.send({ success: true });
   } catch (error) {
+    console.log("aaaa:", error);
     return res.send({ error: "cannot update user" });
   }
 }
@@ -148,7 +160,7 @@ export async function getUserDetails(req, res, next) {
     if (patients) {
       res.send({ patients });
     } else {
-      res.send({ message: "no patient found" });
+      res.send({ message: "no user found" });
     }
   } catch (error) {
     console.log(error);
@@ -167,3 +179,32 @@ export async function getUserDetails(req, res, next) {
 //   }
 // }
 
+//update profile
+// export async function updateProfile(req, res, next) {
+//   try {
+//     let userId = req.params.id;
+//     let { user } = await findUserById(userId);
+//     if (!user) return res.status(400).send({ message: "user not found" });
+
+//     if (user) {
+//       const userData = req.body.user;
+
+//       await updateUser(userId, userData);
+//     }
+
+//     if (user.role === "doctor") {
+//       const { doctor } = await findDoctor(userId);
+//       const doctorId = doctor._id;
+//       console.log("doctorId....", doctorId);
+//       const doctorData = req.body.doctor;
+
+//       await updateDoctor(doctorId, doctorData);
+//     }
+
+//     console.log(user);
+//     res.status(200).send({ success: true });
+//   } catch (err) {
+//     console.log(err);
+//     next(err);
+//   }
+// }
